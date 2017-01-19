@@ -2,7 +2,8 @@
 var passport = require('passport');
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
-var request = require("request");
+var request = require("request"),
+    fs = require("fs");
 var sendJSONresponse = function (res, status, content) {
     res.status(status);
     res.json(content);
@@ -37,7 +38,7 @@ module.exports.register = function(req, res) {
 };
 module.exports.login = function(req, res) {
      console.log(req);
-    if (!req.body.email || !req.body.password) {
+    if (!req.body.username || !req.body.password) {
         console.log(req);
         sendJSONresponse(res, 400, { message: '请输入邮箱和密码啦啦啦!!!' });
         return;
@@ -74,12 +75,17 @@ module.exports.transfer = function (req, res) {
     // res.write(getToken());
     getTokenAndData(res, q.path, JSON.stringify(q.params));
 };
-
+//var devUser = fs.readFileSync("app_api/data/devUser.json", "utf-8");
+//console.log(devUser);
+//console.log(process.env);
+//console.log(process.env.username);
 function getTokenAndData(originRes, path, params) {
-    var form = {
-            username: process.env.username,
-            password: process.env.password
+    var devUser = JSON.parse(fs.readFileSync("app_api/data/devUser.json", "utf-8")),
+        form = {
+            username: devUser.username,
+            password: devUser.password
         };
+    console.log(form);
     request({
         headers: {
             "apikey": process.env.devKey
