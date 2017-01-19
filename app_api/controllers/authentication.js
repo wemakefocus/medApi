@@ -110,7 +110,8 @@ function getTokenAndData(originRes, path, params) {
     );
 }
 function getResData(token, path, params, originRes) {
-    var uri = "http://59.110.52.133:8000" + path + "/?q=" + params;
+    params = '%7B%22QueryString%22%3A%22%E6%B0%A8%22%2C%22Start%22%3A0%2C%22Offset%22%3A10%7D';
+    var uri = "http://59.110.52.133:8000" + path + "/?q=" + encodeURI(params);
     console.log(uri);
     console.log(token);
     request({
@@ -126,6 +127,7 @@ function getResData(token, path, params, originRes) {
             console.log(err);
             return;
         }
+        console.log(res);
         console.log(body);
         sendJSONresponse(originRes, 200, JSON.parse(body));
     });
