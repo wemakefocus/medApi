@@ -18,6 +18,7 @@ router.post('/login', ctrlAuth.login);
 router.get("/transfer", ctrlAuth.transfer);
 router.get("/getuser",userCtrl.getTheUser);
 router.post("/postuser",userCtrl.postTheUser);
+router.post("/deleteuser",userCtrl.deleteTheUser);
 
 router.get('/books', bookCtrl.books);
 router.post('/book', auth, bookCtrl.bookCreate);

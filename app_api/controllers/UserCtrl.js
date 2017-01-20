@@ -44,25 +44,22 @@ module.exports.postTheUser=function(req,res){
             console.log("success");
         });
     }
-
     User.count(function(err,count){
         if (err)throw err;
         console.log(count);
         UserNum=count;
         console.log(UserNum);
-
-
     });
-    /*var query={'email':req.body.data.Info.authority}
-    User.find().exec(function(err,users,req))*/
     console.log(req.body.data[0].Info);
     console.log(UserNum);
-    /*User.find().exec(function (err, users) {
-        if (err) {
-            console.log(err);
-            sendJSONresponse(res, 400, err);
-            return;
-        }
-        sendJSONresponse(res, 200,users);
-    });*/
+
+};
+
+module.exports.deleteTheUser=function(req,res){
+    var query={"email":req.body.email};
+    console.log(req.body);
+    User.findOneAndRemove(query,function(err,doc){
+        if(err) throw err;
+        console.log("delete success");
+    });
 };
