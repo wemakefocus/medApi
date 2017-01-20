@@ -11,10 +11,13 @@ var auth = jwt({
 var bookCtrl = require('../controllers/book');
 var topicCtrl = require('../controllers/topic');
 var ctrlAuth = require('../controllers/authentication');
+var userCtrl=require('../controllers/UserCtrl');
 
 router.post('/register', ctrlAuth.register);
 router.post('/login', ctrlAuth.login);
 router.get("/transfer", ctrlAuth.transfer);
+router.get("/getuser",userCtrl.getTheUser);
+router.post("/postuser",userCtrl.postTheUser);
 
 router.get('/books', bookCtrl.books);
 router.post('/book', auth, bookCtrl.bookCreate);
