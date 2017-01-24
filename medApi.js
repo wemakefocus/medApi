@@ -19,7 +19,7 @@ app.all("*",function(req,res,next){
   res.header("Content-Type", "application/json;charset=utf-8");
   next();
 });
-app.set('port', process.env.PORT || 3001);
+app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/views');
 app.engine('.html', ejs.__express);
 app.set('view engine', 'html'); //替换文件扩展名ejs为html
