@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c633a56a-537e-4b3c-bb27-f286a7c38d45" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/medApi.js" afterPath="$PROJECT_DIR$/medApi.js" />
     </list>
     <ignored path="medApi.iws" />
