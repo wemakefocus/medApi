@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c633a56a-537e-4b3c-bb27-f286a7c38d45" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/medApi.js" afterPath="$PROJECT_DIR$/medApi.js" />
-    </list>
+    <list default="true" id="c633a56a-537e-4b3c-bb27-f286a7c38d45" name="Default" comment="" />
     <ignored path="medApi.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
