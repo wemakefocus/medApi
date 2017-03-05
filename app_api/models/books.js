@@ -24,6 +24,7 @@ var userSchema = new mongoose.Schema({
     email: { type: String, unique: true, required: true },
     hash: String,
     authority:String,
+    lastlogin:String,
     salt: String,
     createdOn: {
         type: Date,

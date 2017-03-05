@@ -20,10 +20,21 @@ module.exports.register = function(req, res) {
         sendJSONresponse(res, 400, { message: "请完成所有字段" });
         return;
     }
+
+    /*var HasUser=false;
+    User.findOne({"email":req.body.email}).exec(function(err,doc){
+        HasUser=true;
+    });
+    if(HasUser){
+        sendJSONresponse(res,400,{message:"邮箱已被注册"});
+        return;
+    }*/
+
     var user = new User();
     user.name = req.body.name;
     user.email = req.body.email;
     user.authority=req.body.authority;
+    user.lastlogin="";
     user.setPassword(req.body.password);
     user.save(function(err) {
         var token;
@@ -43,9 +54,19 @@ module.exports.login = function(req, res) {
         sendJSONresponse(res, 400, { message: '请输入邮箱和密码啦啦啦!!!' });
         return;
     }
+
+    User.findOneAndUpdate({"email":req.body.username},{"lastlogin":req.body.logintime},function(err){
+        console.log("update time!");
+        console.log(req.body.logintime);
+        if (err){
+            throw err;
+        }
+    });
+
     passport.authenticate('local', function(err, user, info) {
         var token;
         var authority;
+        //var lastlogin;
         if (err) {
             sendJSONresponse(err, 404, err);
             return;
@@ -53,6 +74,8 @@ module.exports.login = function(req, res) {
         if (user) {
             token = user.generateJwt();
             authority=user.authority;
+            //lastlogin=user.lastlogin;
+          //  lastlogin=user.lastlogin;
             sendJSONresponse(res, 200, { "token": token ,"auth":authority});
             console.log("what the hell");
         } else {

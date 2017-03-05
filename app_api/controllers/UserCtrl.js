@@ -21,7 +21,7 @@ var sendJSONresponse = function (res, status, content) {
 
 
 module.exports.getTheUser=function(req,res){
-    User.find().exec(function (err, users) {
+    User.find({"authority":"普通用户"}).exec(function (err, users) {
         if (err) {
             console.log(err);
             sendJSONresponse(res, 400, err);
