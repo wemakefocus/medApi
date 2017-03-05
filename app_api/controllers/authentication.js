@@ -87,11 +87,21 @@ module.exports.login = function(req, res) {
 
 module.exports.transfer = function (req, res) {
     var q;
+    console.log("it is in transfer api");
+    console.log(req.method);
+    if (req.method === "POST") {
+        console.log("http method is post!");
+        console.log(req.body);
+        console.log(typeof req.body);
+        q = req.body;
+        getTokenAndData(res, q.path, JSON.stringify(q.params), "POST");
+        return;
+    }
     console.log(req);
-    console.log(req.query);
+    // console.log(req.query);
     q = JSON.parse(req.query.q);
-    console.log(q.path);
-    console.log(q.params);
+    // console.log(q.path);
+    // console.log(q.params);
     // var token = "getToken()";
     // sendJSONresponse(res, 200, { message: token});
     // res.write("success");
@@ -102,7 +112,7 @@ module.exports.transfer = function (req, res) {
 //console.log(devUser);
 //console.log(process.env);
 //console.log(process.env.username);
-function getTokenAndData(originRes, path, params) {
+function getTokenAndData(originRes, path, params, method) {
     var devUser = JSON.parse(fs.readFileSync("app_api/data/devUser.json", "utf-8")),
         form = {
             username: devUser.username,
@@ -127,15 +137,42 @@ function getTokenAndData(originRes, path, params) {
             body = JSON.parse(body);
             token = body.token;
             console.log(token);
-            getResData(token, path, params, originRes);
+            getResData(token, path, params, originRes, method);
             return token;
         }
     );
 }
-function getResData(token, path, params, originRes) {
-    var uri = "http://59.110.52.133:8000" + path + "/?q=" + encodeURI(params);
-    console.log(uri);
-    console.log(token);
+function getResData(token, path, params, originRes, method) {
+    var uri;
+    if (method === "POST") {
+        uri = "http://59.110.52.133:9999" + path;
+        console.log(uri);
+        console.log(params);
+        console.log(JSON.stringify(params));
+        request({
+            headers: {
+                "apikey": process.env.devKey,
+                "token": token
+            },
+            uri: uri,
+            body: params,
+            method: "POST"
+        },
+        function (err, res, body) {
+            if (err) {
+                console.log("error occurred");
+                console.log(err);
+                return;
+            }
+            // console.log(res);
+            console.log(body);
+            sendJSONresponse(originRes, 200, JSON.parse(body));
+        });
+        return;
+    }
+    uri = "http://59.110.52.133:8000" + path + "/?q=" + encodeURI(params);
+    // console.log(uri);
+    // console.log(token);
     request({
         headers: {
             "apikey": process.env.devKey,
@@ -149,8 +186,8 @@ function getResData(token, path, params, originRes) {
             console.log(err);
             return;
         }
-        console.log(res);
-        console.log(body);
+        // console.log(res);
+        // console.log(body);
         sendJSONresponse(originRes, 200, JSON.parse(body));
     });
 }
