@@ -13,7 +13,7 @@ var sendJSONresponse = function (res, status, content) {
 module.exports.register = function(req, res) {
     // console.log("!!!!!");
     // console.log(req.body);
-    if (!req.body.name || !req.body.email || !req.body.password || !req.body.authority) {
+    if (!req.body.name || !req.body.email || !req.body.password || !req.body.authority ||!req.body.module) {
         console.log("name", req.body.name);
         console.log("email", req.body.email);
         console.log("password", req.body.password);
@@ -34,15 +34,21 @@ module.exports.register = function(req, res) {
     user.name = req.body.name;
     user.email = req.body.email;
     user.authority=req.body.authority;
+    for(var i=0;i<req.body.module.length;i++){
+        user.module.push(req.body.module[i]);
+    }
+    //user.module=req.body.module;
     user.lastlogin="";
     user.setPassword(req.body.password);
     user.save(function(err) {
         var token;
+        var module;
         if (err) {
             sendJSONresponse(res, 404, err);
         } else {
             token = user.generateJwt();
-            sendJSONresponse(res, 200, { 'token': token });
+            module=user.module;
+            sendJSONresponse(res, 200, { 'token': token ,'module':module});
         }
 
     });
@@ -66,6 +72,7 @@ module.exports.login = function(req, res) {
     passport.authenticate('local', function(err, user, info) {
         var token;
         var authority;
+        var module;
         //var lastlogin;
         if (err) {
             sendJSONresponse(err, 404, err);
@@ -74,9 +81,10 @@ module.exports.login = function(req, res) {
         if (user) {
             token = user.generateJwt();
             authority=user.authority;
+            module=user.module;
             //lastlogin=user.lastlogin;
           //  lastlogin=user.lastlogin;
-            sendJSONresponse(res, 200, { "token": token ,"auth":authority});
+            sendJSONresponse(res, 200, { "token": token ,"auth":authority,"module":module});
             console.log("what the hell");
         } else {
             sendJSONresponse(res, 401, info);

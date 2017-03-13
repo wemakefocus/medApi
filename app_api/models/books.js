@@ -25,6 +25,7 @@ var userSchema = new mongoose.Schema({
     hash: String,
     authority:String,
     lastlogin:String,
+    module:Array,
     salt: String,
     createdOn: {
         type: Date,
