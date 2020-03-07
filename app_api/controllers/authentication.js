@@ -131,7 +131,7 @@ function getTokenAndData(originRes, path, params, method) {
         headers: {
             "apikey": process.env.devKey
         },
-        uri: "http://59.110.52.133:8000/login/",
+        uri: "http://123.56.247.133:8000/login/",
         body: JSON.stringify(form),
         method: "POST"
     },
@@ -153,7 +153,7 @@ function getTokenAndData(originRes, path, params, method) {
 function getResData(token, path, params, originRes, method) {
     var uri;
     if (method === "POST") {
-        uri = "http://59.110.52.133:9999" + path;
+        uri = "http://123.56.247.133:9999" + path;
         console.log(uri);
         console.log(params);
         console.log(JSON.stringify(params));
@@ -178,7 +178,7 @@ function getResData(token, path, params, originRes, method) {
         });
         return;
     }
-    uri = "http://59.110.52.133:8000" + path + "/?q=" + encodeURI(params);
+    uri = "http://123.56.247.133:8000" + path + "/?q=" + encodeURI(params);
     // console.log(uri);
     // console.log(token);
     request({
